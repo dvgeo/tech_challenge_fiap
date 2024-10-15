@@ -1,6 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
+
+from http import HTTPStatus
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse # seu eu quisesse retornar um html
+
+from fastapi_zero.schemas import Message
 
 app = FastAPI()
 
@@ -588,10 +593,18 @@ def parse_vitibrasil_exportacao_suco_uva(url):
     return data
 
 
-@app.get('/')
+@app.get('/', status_code=HTTPStatus.OK, response_model=Message)
 def read_root():
     return {'message': 'Olá mundo'}
-
+    '''return """
+    <html>
+        <head>
+            <title> Nosso olá mundo!</title>
+        </head>
+        <body>
+            <h1>Olá Mundo</h1>
+        </body>  
+    </html>"""'''
 
 # print(read_root())
 @app.get('/producao')
